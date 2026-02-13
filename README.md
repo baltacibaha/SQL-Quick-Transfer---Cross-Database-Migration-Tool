@@ -365,19 +365,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🗺️ Roadmap
-
-- [ ] Add support for MongoDB and other NoSQL databases
-- [ ] Implement data transformation capabilities
-- [ ] Add scheduling/automation features
-- [ ] Create Docker container
-- [ ] Add REST API endpoints
-- [ ] Implement incremental backup support
-- [ ] Add CSV/Excel import/export
-- [ ] Multi-language support (i18n)
-
----
-
 ## ⭐ Star History
 
 If you find this project useful, please consider giving it a star! ⭐
