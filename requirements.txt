@@ -1,0 +1,22 @@
+# Temel bağımlılıklar - Basitleştirilmiş
+# Önce bunları kurun, sonra diğerlerini
+
+# SQLAlchemy - Veritabanı ORM
+sqlalchemy==2.0.23
+
+# Veritabanı sürücüleri
+mysql-connector-python==8.2.0
+psycopg2-binary==2.9.9
+
+# Şifreleme
+cryptography==41.0.7
+
+# Web Framework
+Flask==3.0.0
+Flask-Cors==4.0.0
+
+# GUI Framework (Sadece masaüstü kullanacaksanız)
+# PyQt6==6.6.1
+
+# Yardımcı
+python-dotenv==1.0.0

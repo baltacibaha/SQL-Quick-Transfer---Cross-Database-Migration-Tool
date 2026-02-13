@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Quick Transfer Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗄️ SQL Quick Transfer Tool</h1>
+            <p class="subtitle">Tek Tıkla SQL Veri Aktarım Aracı</p>
+        </header>
+
+        <!-- Kaynak Veritabanı Bölümü -->
+        <section class="db-section">
+            <h2>📥 Kaynak Veritabanı</h2>
+            <div class="connection-form" id="sourceForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Veritabanı Tipi:</label>
+                        <select id="sourceDbType">
+                            <option value="mysql">MySQL</option>
+                            <option value="postgresql">PostgreSQL</option>
+                            <option value="sqlite">SQLite</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Host:</label>
+                        <input type="text" id="sourceHost" placeholder="localhost" value="localhost">
+                    </div>
+                    <div class="form-group">
+                        <label>Port:</label>
+                        <input type="number" id="sourcePort" placeholder="3306" value="3306">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Kullanıcı Adı:</label>
+                        <input type="text" id="sourceUsername" placeholder="root">
+                    </div>
+                    <div class="form-group">
+                        <label>Şifre:</label>
+                        <input type="password" id="sourcePassword" placeholder="••••••••">
+                    </div>
+                    <div class="form-group">
+                        <label>Veritabanı Adı:</label>
+                        <input type="text" id="sourceDatabase" placeholder="mydb">
+                    </div>
+                </div>
+                
+                <div class="button-row">
+                    <button class="btn btn-test" onclick="testConnection('source')">
+                        🔍 Bağlantıyı Test Et
+                    </button>
+                    <button class="btn btn-primary" onclick="connectDatabase('source')">
+                        🔌 Bağlan
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveConnection('source')">
+                        💾 Bağlantıyı Kaydet
+                    </button>
+                </div>
+                
+                <div class="status-message" id="sourceStatus"></div>
+            </div>
+            
+            <!-- Kaynak Tablolar -->
+            <div class="tables-section" id="sourceTables" style="display:none;">
+                <h3>Kaynak Tablolar</h3>
+                <div class="table-controls">
+                    <button class="btn btn-small" onclick="selectAllTables()">Tümünü Seç</button>
+                    <button class="btn btn-small" onclick="deselectAllTables()">Seçimi Temizle</button>
+                </div>
+                <div class="table-list" id="sourceTableList"></div>
+            </div>
+        </section>
+
+        <!-- Hedef Veritabanı Bölümü -->
+        <section class="db-section">
+            <h2>📤 Hedef Veritabanı</h2>
+            <div class="connection-form" id="targetForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Veritabanı Tipi:</label>
+                        <select id="targetDbType">
+                            <option value="mysql">MySQL</option>
+                            <option value="postgresql">PostgreSQL</option>
+                            <option value="sqlite">SQLite</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Host:</label>
+                        <input type="text" id="targetHost" placeholder="localhost" value="localhost">
+                    </div>
+                    <div class="form-group">
+                        <label>Port:</label>
+                        <input type="number" id="targetPort" placeholder="5432" value="5432">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Kullanıcı Adı:</label>
+                        <input type="text" id="targetUsername" placeholder="postgres">
+                    </div>
+                    <div class="form-group">
+                        <label>Şifre:</label>
+                        <input type="password" id="targetPassword" placeholder="••••••••">
+                    </div>
+                    <div class="form-group">
+                        <label>Veritabanı Adı:</label>
+                        <input type="text" id="targetDatabase" placeholder="target_db">
+                    </div>
+                </div>
+                
+                <div class="button-row">
+                    <button class="btn btn-test" onclick="testConnection('target')">
+                        🔍 Bağlantıyı Test Et
+                    </button>
+                    <button class="btn btn-primary" onclick="connectDatabase('target')">
+                        🔌 Bağlan
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveConnection('target')">
+                        💾 Bağlantıyı Kaydet
+                    </button>
+                </div>
+                
+                <div class="status-message" id="targetStatus"></div>
+            </div>
+        </section>
+
+        <!-- Aktarım Seçenekleri -->
+        <section class="transfer-section" id="transferSection" style="display:none;">
+            <h2>⚙️ Aktarım Seçenekleri</h2>
+            
+            <div class="options-form">
+                <div class="form-group">
+                    <label>Aktarım Modu:</label>
+                    <select id="transferMode">
+                        <option value="schema_and_data">Yapı ve Veri</option>
+                        <option value="schema_only">Sadece Yapı</option>
+                        <option value="data_only">Sadece Veri</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parça Boyutu (satır):</label>
+                    <input type="number" id="chunkSize" value="1000" min="100" max="10000">
+                </div>
+                
+                <div class="form-group checkbox">
+                    <label>
+                        <input type="checkbox" id="truncateTable" checked>
+                        Hedef tabloyu önce temizle
+                    </label>
+                </div>
+            </div>
+            
+            <div class="transfer-button-container">
+                <button class="btn btn-transfer" onclick="startTransfer()">
+                    🚀 Aktarımı Başlat
+                </button>
+            </div>
+        </section>
+
+        <!-- İlerleme Bölümü -->
+        <section class="progress-section" id="progressSection" style="display:none;">
+            <h2>📊 Aktarım İlerlemesi</h2>
+            
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+            
+            <div class="progress-details" id="progressDetails">
+                <p>Hazırlanıyor...</p>
+            </div>
+            
+            <div class="log-container" id="logContainer">
+                <h3>İşlem Günlüğü</h3>
+                <div class="log-messages" id="logMessages"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

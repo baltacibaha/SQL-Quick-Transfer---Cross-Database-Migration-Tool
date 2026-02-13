@@ -1,296 +1,247 @@
-# 🗄️ SQL Quick Transfer Tool
+# SQL Quick Transfer Tool
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/yourusername/sql-transfer-tool)
-[![Database](https://img.shields.io/badge/Database-MySQL%20%7C%20PostgreSQL%20%7C%20SQLite-orange.svg)](https://github.com/yourusername/sql-transfer-tool)
+**Tek Tıkla SQL Veri Aktarım Aracı**
 
-**One-click SQL data transfer tool for seamless database migration**
+SQL Quick Transfer Tool, farklı SQL veritabanları arasında hızlı ve kolay veri aktarımı yapmanızı sağlayan bir araçtır. Hem web tabanlı hem de masaüstü arayüz seçenekleri sunar.
 
-Transfer tables and data between different SQL databases (MySQL, PostgreSQL, SQLite) with just one click. Built for developers and database administrators who need quick, reliable data transfers without complex ETL processes.
+## ✨ Özellikler
 
----
+- 🔌 **Çoklu Veritabanı Desteği**: MySQL, PostgreSQL ve SQLite
+- 🔐 **Güvenli Bağlantı Yönetimi**: Şifrelenmiş bağlantı bilgisi saklama
+- 📋 **Esnek Aktarım Seçenekleri**:
+  - Sadece Yapı (Schema Only)
+  - Yapı ve Veri (Schema & Data)
+  - Sadece Veri (Data Only)
+- ⚡ **Performans Optimizasyonu**: Chunk-based veri aktarımı ile büyük tablolar için optimize edilmiş performans
+- 📊 **Gerçek Zamanlı İlerleme Takibi**: Detaylı ilerleme çubuğu ve log sistemi
+- 🎨 **İki Farklı Arayüz**: Web tabanlı (Flask) ve Masaüstü (PyQt6)
 
-## ✨ Features
+## 📁 Proje Yapısı
 
-- 🔄 **Multi-Database Support** - MySQL, PostgreSQL, and SQLite
-- 🔐 **Secure Connection Management** - Encrypted credential storage using AES-256
-- 📋 **Flexible Transfer Modes**:
-  - Schema Only (structure without data)
-  - Data Only (data without structure)
-  - Schema + Data (complete table transfer)
-- ⚡ **Performance Optimized** - Chunk-based transfer for large datasets
-- 📊 **Real-time Progress Tracking** - Detailed progress bar and logging system
-- 🎨 **Dual Interface Options**:
-  - 🌐 Web Interface (Flask-based)
-  - 🖥️ Desktop Application (PyQt6/Tkinter)
-- 🛡️ **Safe Operations** - Validated SQL operations with error handling
-- 🚀 **Easy Setup** - Automated installation scripts included
+```
+sql_transfer_tool/
+├── core/                          # Çekirdek modüller
+│   ├── __init__.py               # Modül başlatma
+│   ├── database_connection.py   # Veritabanı bağlantı yönetimi
+│   ├── transfer_engine.py       # Veri aktarım motoru
+│   └── connection_storage.py    # Güvenli bağlantı saklama
+├── web/                          # Flask web uygulaması
+│   └── app.py                   # Flask sunucu
+├── desktop/                      # PyQt6 masaüstü uygulaması
+│   └── main.py                  # Masaüstü ana dosya
+├── templates/                    # HTML şablonlar
+│   └── index.html               # Ana sayfa
+├── static/                       # Statik dosyalar
+│   ├── css/
+│   │   └── style.css            # CSS stilleri
+│   └── js/
+│       └── main.js              # JavaScript fonksiyonları
+├── requirements.txt              # Python bağımlılıkları
+└── README.md                     # Bu dosya
+```
 
----
+## 🚀 Kurulum
 
-## 🎯 Use Cases
+### 1. Gereksinimler
 
-- 📦 **Database Migration** - Move data between different database systems
-- 🧪 **Testing Environments** - Quickly populate test databases
-- 💾 **Backup Operations** - Create database backups and snapshots
-- 🔄 **Data Synchronization** - Keep multiple databases in sync
-- 🏗️ **Development Setup** - Set up local development databases easily
+- Python 3.8 veya üzeri
+- pip (Python paket yöneticisi)
 
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.8 or higher
-- pip package manager
-
-### Installation
+### 2. Bağımlılıkları Yükleyin
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/sql-transfer-tool.git
-cd sql-transfer-tool
+# Proje dizinine gidin
+cd sql_transfer_tool
 
-# Create virtual environment (recommended)
+# Virtual environment oluşturun (önerilir)
 python -m venv venv
 
-# Activate virtual environment
+# Virtual environment'ı aktifleştirin
 # Windows:
 venv\Scripts\activate
 # Linux/Mac:
 source venv/bin/activate
 
-# Install dependencies
+# Bağımlılıkları yükleyin
 pip install -r requirements.txt
 ```
 
-### Quick Run
+## 💻 Kullanım
 
-**Option 1: Web Interface** (Recommended)
+### Web Uygulaması (Flask)
+
 ```bash
-python start.py web
-# Open browser: http://localhost:5000
+# Web sunucusunu başlatın
+python web/app.py
+
+# Tarayıcınızda açın:
+# http://localhost:5000
 ```
 
-**Option 2: Desktop Application** (Tkinter - No installation required)
-```bash
-python standalone_app.py
-```
+#### Web Arayüzü Kullanımı:
 
-**Option 3: Desktop Application** (PyQt6 - Modern UI)
+1. **Kaynak Veritabanı Bağlantısı**:
+   - Veritabanı tipini seçin (MySQL, PostgreSQL, SQLite)
+   - Bağlantı bilgilerini girin
+   - "Bağlantıyı Test Et" ile bağlantıyı doğrulayın
+   - "Bağlan" butonuna tıklayın
+
+2. **Hedef Veritabanı Bağlantısı**:
+   - Aynı adımları hedef veritabanı için tekrarlayın
+
+3. **Tablo Seçimi**:
+   - Kaynak veritabanına bağlandıktan sonra tablolar otomatik yüklenir
+   - Aktarmak istediğiniz tabloları seçin
+   - "Tümünü Seç" veya tekil seçim yapabilirsiniz
+
+4. **Aktarım Seçenekleri**:
+   - Aktarım modunu seçin (Yapı ve Veri / Sadece Yapı / Sadece Veri)
+   - Parça boyutunu ayarlayın (önerilen: 1000)
+   - İsteğe bağlı: "Hedef tabloyu önce temizle" seçeneği
+
+5. **Aktarımı Başlatın**:
+   - "Aktarımı Başlat" butonuna tıklayın
+   - İlerleme durumunu takip edin
+   - İşlem günlüğünü inceleyin
+
+### Masaüstü Uygulaması (PyQt6)
+
 ```bash
+# Masaüstü uygulamasını başlatın
 python desktop/main.py
 ```
 
----
+#### Masaüstü Arayüzü Kullanımı:
 
-## 📖 Usage Guide
+1. Sol panelde kaynak, sağ panelde hedef veritabanı bilgilerini girin
+2. Her iki bağlantıyı da test edin ve bağlanın
+3. "Tabloları Yükle" butonuna tıklayın
+4. Aktarmak istediğiniz tabloları seçin
+5. Aktarım seçeneklerini ayarlayın
+6. "Aktarımı Başlat" butonuna tıklayın
 
-### Web Interface
+## 🔧 Yapılandırma
 
-1. **Connect Source Database**
-   - Select database type (MySQL/PostgreSQL/SQLite)
-   - Enter connection details
-   - Click "Test Connection" to verify
-   - Click "Connect"
+### Veritabanı Bağlantı Formatları
 
-2. **Connect Target Database**
-   - Repeat above steps for target database
-
-3. **Select Tables**
-   - Tables are automatically loaded from source
-   - Select tables you want to transfer
-   - Use "Select All" or individual selection
-
-4. **Configure Transfer Options**
-   - Choose transfer mode (Schema + Data / Schema Only / Data Only)
-   - Set chunk size (recommended: 1000)
-   - Optional: Enable "Truncate target table before insert"
-
-5. **Start Transfer**
-   - Click "Start Transfer"
-   - Monitor progress in real-time
-   - Check log for detailed information
-
-### Desktop Application
-
-1. Enter connection details in left panel (Source) and right panel (Target)
-2. Test and connect both databases
-3. Click "Load Tables" button
-4. Select tables to transfer
-5. Configure transfer options
-6. Click "Start Transfer" and monitor progress
-
----
-
-## 🔧 Configuration
-
-### Database Connection Examples
-
-**MySQL**
-```python
+#### MySQL
+```
 Host: localhost
 Port: 3306
 Username: root
-Password: your_password
+Password: ****
 Database: mydb
 ```
 
-**PostgreSQL**
-```python
+#### PostgreSQL
+```
 Host: localhost
 Port: 5432
 Username: postgres
-Password: your_password
+Password: ****
 Database: mydb
 ```
 
-**SQLite**
-```python
+#### SQLite
+```
 Database: /path/to/database.db
-# No host, port, username, or password needed
+(Host, Port, Username, Password gerekli değil)
 ```
 
----
+### Güvenlik Notları
 
-## 💻 API Usage
+- Bağlantı bilgileri `cryptography` kütüphanesi ile şifrelenir
+- Şifreleme anahtarı `.secret.key` dosyasında saklanır
+- **ÖNEMLİ**: `.secret.key` dosyasını güvenli tutun ve versiyon kontrolüne eklemeyin
 
-### Python API Example
+## 📚 API Referansı
 
+### Core Modülleri
+
+#### DatabaseConnection
 ```python
-from core import DatabaseConnection, DataTransferEngine, TransferOptions
+from core import DatabaseConnection
 
-# Create connections
-source = DatabaseConnection(
+# Bağlantı oluşturma
+conn = DatabaseConnection(
     db_type='mysql',
     host='localhost',
     port=3306,
     username='root',
     password='password',
-    database='source_db'
+    database='mydb'
 )
 
-target = DatabaseConnection(
-    db_type='postgresql',
-    host='localhost',
-    port=5432,
-    username='postgres',
-    password='password',
-    database='target_db'
-)
+# Bağlantıyı test etme
+success, message = conn.test_connection()
 
-# Connect
-source.connect()
-target.connect()
+# Tabloları listeleme
+tables = conn.get_tables()
+```
 
-# Create transfer engine
-engine = DataTransferEngine(source, target)
+#### DataTransferEngine
+```python
+from core import DataTransferEngine, TransferOptions
 
-# Configure transfer options
+# Transfer engine oluşturma
+engine = DataTransferEngine(source_conn, target_conn)
+
+# Aktarım seçenekleri
 options = TransferOptions(
     mode=TransferOptions.SCHEMA_AND_DATA,
     chunk_size=1000,
     truncate_before_insert=True
 )
 
-# Transfer tables
+# Aktarım başlatma
 result = engine.transfer_tables(
-    table_names=['users', 'orders', 'products'],
+    table_names=['users', 'orders'],
     options=options
 )
-
-print(f"Transfer completed: {result.current_table} tables processed")
 ```
 
----
+## 🐛 Sorun Giderme
 
-## 📁 Project Structure
+### Yaygın Hatalar
 
-```
-sql_transfer_tool/
-├── core/                      # Core modules
-│   ├── database_connection.py # Database connection management
-│   ├── transfer_engine.py     # Data transfer engine
-│   └── connection_storage.py  # Secure credential storage
-├── web/                       # Flask web application
-│   └── app.py                # Web server
-├── desktop/                   # Desktop applications
-│   ├── main.py               # PyQt6 version
-│   └── main_tkinter.py       # Tkinter version
-├── templates/                 # HTML templates
-│   └── index.html            # Main page
-├── static/                    # Static files
-│   ├── css/style.css         # Stylesheets
-│   └── js/main.js            # JavaScript
-├── standalone_app.py          # Standalone single-file app
-├── start.py                   # Quick launcher
-├── demo.py                    # Demo examples
-└── requirements.txt           # Python dependencies
-```
+1. **"Bağlantı Hatası"**:
+   - Veritabanı sunucusunun çalıştığından emin olun
+   - Host ve port bilgilerini kontrol edin
+   - Firewall ayarlarını kontrol edin
 
----
+2. **"Tablo Bulunamadı"**:
+   - Kaynak veritabanında tablonun var olduğundan emin olun
+   - Kullanıcı yetkilerini kontrol edin
 
-## ⚡ Performance Tips
+3. **"Bellek Hatası"**:
+   - Chunk size değerini azaltın (örn: 500)
+   - Büyük tabloları tek tek aktarmayı deneyin
 
-### Chunk Size Optimization
+4. **"Import Hatası"**:
+   - Tüm bağımlılıkların yüklendiğinden emin olun
+   - `pip install -r requirements.txt` komutunu tekrar çalıştırın
 
-| Table Size | Recommended Chunk Size |
-|-----------|----------------------|
-| Small (<10K rows) | 1,000 - 2,000 |
-| Medium (10K-1M rows) | 5,000 - 10,000 |
-| Large (>1M rows) | 10,000+ |
+## 🔄 Performans İpuçları
 
-### Network Performance
+1. **Chunk Size Optimizasyonu**:
+   - Küçük tablolar (<10K satır): 1000-2000
+   - Orta tablolar (10K-1M satır): 5000-10000
+   - Büyük tablolar (>1M satır): 10000+
 
-- **Local transfers**: Increase chunk size for better speed
-- **Remote transfers**: Decrease chunk size to avoid timeouts
-- **Large datasets**: Transfer tables in batches
+2. **Ağ Performansı**:
+   - Yerel aktarımlar için chunk size'ı artırabilirsiniz
+   - Uzak sunuculara aktarımda chunk size'ı azaltın
 
----
+3. **Eş Zamanlı Aktarım**:
+   - Büyük projelerde tabloları gruplara ayırıp sırayla aktarın
+   - Her grup için ayrı transfer işlemi başlatın
 
-## 🐛 Troubleshooting
+## 📝 Geliştirme
 
-### Common Issues
-
-**"Connection Error"**
-- Ensure database server is running
-- Check host and port configuration
-- Verify firewall settings
-
-**"Table Not Found"**
-- Confirm table exists in source database
-- Check user permissions
-
-**"Memory Error"**
-- Reduce chunk size (e.g., 500)
-- Transfer large tables individually
-
-**"Import Error"**
-- Verify all dependencies are installed: `pip install -r requirements.txt`
-- Check Python version: `python --version` (must be 3.8+)
-
-**"Windows Long Path Error" (PyQt6)**
-- Use Tkinter version instead: `python standalone_app.py`
-- Or enable Windows Long Path support (see documentation)
-
----
-
-## 🔒 Security
-
-- Connection credentials are encrypted using AES-256 via the `cryptography` library
-- Encryption key is stored in `.secret.key` (automatically generated)
-- **Important**: Never commit `.secret.key` to version control
-- SQL operations use parameterized queries to prevent injection attacks
-
----
-
-## 🧪 Development
-
-### Setting Up Development Environment
+### Test Ortamı Kurulumu
 
 ```bash
-# Create test databases
+# Test veritabanları oluşturma
 # MySQL
 mysql -u root -p -e "CREATE DATABASE test_source;"
 mysql -u root -p -e "CREATE DATABASE test_target;"
@@ -300,95 +251,39 @@ psql -U postgres -c "CREATE DATABASE test_source;"
 psql -U postgres -c "CREATE DATABASE test_target;"
 ```
 
-### Running Tests
+### Kod Standartları
 
-```bash
-# Run demo examples
-python demo.py
+- PEP 8 kod standartlarına uyun
+- Docstring'ler ekleyin
+- Type hints kullanın
+- Error handling ekleyin
 
-# Check package installation
-python check_packages.py
+## 🤝 Katkıda Bulunma
 
-# Test file structure
-python check_files.py
-```
+1. Fork yapın
+2. Feature branch oluşturun (`git checkout -b feature/AmazingFeature`)
+3. Değişikliklerinizi commit edin (`git commit -m 'Add some AmazingFeature'`)
+4. Branch'inizi push edin (`git push origin feature/AmazingFeature`)
+5. Pull Request açın
 
-### Code Standards
+## 📄 Lisans
 
-- Follow PEP 8 style guide
-- Include docstrings for all functions and classes
-- Use type hints where applicable
-- Implement comprehensive error handling
+Bu proje eğitim ve ticari olmayan kullanım için serbestçe kullanılabilir.
 
----
+## 🙏 Teşekkürler
 
-## 🤝 Contributing
+- SQLAlchemy - Veritabanı toolkit
+- Flask - Web framework
+- PyQt6 - GUI framework
+- Cryptography - Şifreleme kütüphanesi
 
-Contributions are welcome! Please follow these steps:
+## 📞 İletişim
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-Please ensure your PR:
-- Includes relevant tests
-- Updates documentation as needed
-- Follows existing code style
-- Includes a clear description of changes
+Sorularınız veya önerileriniz için issue açabilirsiniz.
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- [SQLAlchemy](https://www.sqlalchemy.org/) - Database toolkit and ORM
-- [Flask](https://flask.palletsprojects.com/) - Web framework
-- [PyQt6](https://www.riverbankcomputing.com/software/pyqt/) - GUI framework
-- [Cryptography](https://cryptography.io/) - Encryption library
-
----
-
-## 📞 Support
-
-- 📖 [Documentation](https://github.com/yourusername/sql-transfer-tool/wiki)
-- 🐛 [Issue Tracker](https://github.com/yourusername/sql-transfer-tool/issues)
-- 💬 [Discussions](https://github.com/yourusername/sql-transfer-tool/discussions)
-
----
-
-## ⚠️ Disclaimer
-
-- Always test transfers in a safe environment before using in production
-- Create backups before performing large data transfers
-- Verify data integrity after transfer operations
-- This tool is provided as-is without warranty
-
----
-
-## 🗺️ Roadmap
-
-- [ ] Add support for MongoDB and other NoSQL databases
-- [ ] Implement data transformation capabilities
-- [ ] Add scheduling/automation features
-- [ ] Create Docker container
-- [ ] Add REST API endpoints
-- [ ] Implement incremental backup support
-- [ ] Add CSV/Excel import/export
-- [ ] Multi-language support (i18n)
-
----
-
-## ⭐ Star History
-
-If you find this project useful, please consider giving it a star! ⭐
-
----
-
-**Made with ❤️ by baltacibaha, for developers**
+**Notlar**:
+- Üretim ortamında kullanmadan önce kapsamlı test yapın
+- Yedekleme yapmadan büyük veri aktarımları yapmayın
+- Güvenlik için bağlantı bilgilerini asla versiyon kontrolüne eklemeyin
